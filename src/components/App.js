@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import logo from '../assets/logo.svg';
 import '../styles/index.css';
-import { TodoForm, TodoList } from './todo';
+import bootstrap from 'react-bootstrap';
+import {TodoForm, TodoList} from './todo';
 import {addTodo, generateId} from '../tests/todoHelpers.js'
 
 class App extends Component {
@@ -18,6 +19,7 @@ class App extends Component {
     } 
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleEmptySubmit = this.handleEmptySubmit.bind(this)
   }
 
     handleSubmit(e) {
@@ -31,7 +33,15 @@ class App extends Component {
       const updatedTodos = addTodo(this.state.todos, newToDo)
       this.setState({
         todos: updatedTodos,
-        currentTodo: ""
+        currentTodo: "",
+        errorMessage: ""
+      })
+    }
+
+    handleEmptySubmit(e) {
+      e.preventDefault()
+      this.setState({
+        errorMessage: 'Please supply a todo name !'
       })
     }
 
@@ -42,15 +52,17 @@ class App extends Component {
     }    
 
   render() {
+    const submitHandler = this.state.currentTodo ? this.handleSubmit : this.handleEmptySubmit
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo"/>
         </header>
         <div className="toDoApp">
+        {this.state.errorMessage && <span className="error">{this.state.errorMessage}</span>}
             <TodoForm handleInputChange={this.handleInputChange}
                       currentTodo={this.state.currentTodo} 
-                      handleSubmit={this.handleSubmit}/>
+                      handleSubmit={submitHandler}/>
             <TodoList todos={this.state.todos}/>
         </div>
       </div>
