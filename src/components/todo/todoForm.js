@@ -1,8 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import bootstrap from 'react-bootstrap';
-
-
 
 const TodoForm = (props) => (
                 <form onSubmit={props.handleSubmit}>

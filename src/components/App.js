@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import logo from '../assets/logo.svg';
 import '../styles/index.css';
-import bootstrap from 'react-bootstrap';
+// import bootstrap from 'react-bootstrap';
 import {TodoForm, TodoList} from './todo';
 import {addTodo, generateId} from '../tests/todoHelpers.js'
 
 class App extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
+    state = {
       todos: [
         {id: 1, name : "Learn React", isComplete: true},
         {id: 2, name : "Build RestFul API", isComplete: false},
@@ -17,12 +15,8 @@ class App extends Component {
       ],
       currentTodo: ""
     } 
-    this.handleInputChange = this.handleInputChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleEmptySubmit = this.handleEmptySubmit.bind(this)
-  }
 
-    handleSubmit(e) {
+    handleSubmit = (e) => {
       e.preventDefault()
       const newId = generateId()
       const newToDo = {
@@ -38,14 +32,14 @@ class App extends Component {
       })
     }
 
-    handleEmptySubmit(e) {
+    handleEmptySubmit = (e) => {
       e.preventDefault()
       this.setState({
         errorMessage: 'Please supply a todo name !'
       })
     }
 
-    handleInputChange(e) {
+    handleInputChange = (e) => {
       this.setState({ 
         currentTodo: e.target.value
       })
@@ -59,7 +53,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo"/>
         </header>
         <div className="toDoApp">
-        {this.state.errorMessage && <span className="error">{this.state.errorMessage}</span>}
+            {this.state.errorMessage && <span className="error">{this.state.errorMessage}</span>}
             <TodoForm handleInputChange={this.handleInputChange}
                       currentTodo={this.state.currentTodo} 
                       handleSubmit={submitHandler}/>
