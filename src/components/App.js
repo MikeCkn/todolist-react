@@ -1,19 +1,33 @@
 import React, { Component } from 'react';
 import logo from '../assets/logo.svg';
 import '../styles/index.css';
-// import bootstrap from 'react-bootstrap';
 import {TodoForm, TodoList} from './todo';
-import {addTodo, generateId} from '../tests/todoHelpers.js'
+import {addTodo, generateId, findById, toggleTodo, updateTodo} from '../tests/todoHelpers.js'
 
 class App extends Component {
 
-    state = {
-      todos: [
-        {id: 1, name : "Learn React", isComplete: true},
-        {id: 2, name : "Build RestFul API", isComplete: false},
-        {id: 3, name : "Javascript basics", isComplete: false}
-      ],
-      currentTodo: ""
+  state = {
+    todos: [{
+      id: 1,
+      name: "Learn React",
+      isComplete: true
+    }, {
+      id: 2,
+      name: "Build RestFul API",
+      isComplete: false
+    }, {
+      id: 3,
+      name: "Javascript basics",
+      isComplete: false
+    }],
+    currentTodo: ""
+  }
+
+    handleToggle = (id) => {
+      const todo = findById(id, this.state.todos)
+      const toggled = toggleTodo(todo)
+      const updatedTodos = updateTodo(this.state.todos, toggled)
+      this.setState({todos: updatedTodos})
     } 
 
     handleSubmit = (e) => {
@@ -57,7 +71,9 @@ class App extends Component {
             <TodoForm handleInputChange={this.handleInputChange}
                       currentTodo={this.state.currentTodo} 
                       handleSubmit={submitHandler}/>
-            <TodoList todos={this.state.todos}/>
+            <TodoList 
+                      todos={this.state.todos}
+                      handleToggle={this.handleToggle}/>
         </div>
       </div>
     );
